@@ -8,8 +8,10 @@ router
   .route("/create")
   .post(upload.single("collection_image"), collection.createCollection);
 router.route("/all").get(collection.allCollection);
-router.route("/:id").get(collection.collectionById);
-router.route("/:id").patch(collection.updateCollection);
-router.route("/:id").delete(collection.removeCollection);
+router
+  .route("/:id")
+  .get(collection.collectionById)
+  .patch(collection.updateCollection)
+  .delete(collection.removeCollection);
 
 module.exports = router;

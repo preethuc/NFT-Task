@@ -76,6 +76,7 @@ exports.removeNFT = async (req, res, next) => {
   }
 };
 
+//GET-collection in nft
 exports.getNFTCollection = async (req, res, next) => {
   try {
     const data = await NFT.find({ nft_collection: req.params.id });
@@ -87,3 +88,29 @@ exports.getNFTCollection = async (req, res, next) => {
     return res.send(error);
   }
 };
+
+exports.getBuy = async (req, res, next) => {
+  try {
+    const data = await NFT.find({ sale_type: "Buy"});
+    return res.status(200).json({
+      status: "success",
+      data,
+    });
+  } catch (error) {
+    return res.send(error);
+  }
+};
+
+//BUY
+exports.updateBuy = async (req, res, next) => {
+  try { 
+    const buyData = await NFT.findByIdAndUpdate(req.params.id, { nft_owner: req.body.nft_owner }, { new: true })
+    res.status(200).json({
+      status: "updated",
+      data:buyData
+    })
+  }
+  catch (error) {
+    return res.send(error);
+  }
+}

@@ -41,10 +41,11 @@ exports.allCollection = async (req, res, next) => {
   }
 };
 
-//GET- COLLECTION BY ID
+//GET- COLLECTION BY ID - nft_holder==User
 exports.collectionById = async (req, res, next) => {
   try {
-    const data = await Collection.findById(req.params.id);
+    const data = await Collection.find({ nft_holder: req.params.id });
+    console.log(data);
     res.status(200).json({
       status: "success",
       data,

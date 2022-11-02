@@ -17,7 +17,7 @@ const collectionSchema = new mongoose.Schema(
     attribute: {
       type: Object,
     },
-    user: {
+    nft_holder: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

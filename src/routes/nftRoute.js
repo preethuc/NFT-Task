@@ -9,7 +9,9 @@ router.route("/").get(nftController.allNFT);
 router
   .route("/:id")
   .get(nftController.NFTById)
-  .patch(nftController.updateNFT)
+  .put(nftController.updateNFT)
   .delete(nftController.removeNFT);
-  router.route("/getNft/:id").get(nftController.getNFTCollection)
+router.route("/getNft/:id").get(nftController.getNFTCollection);
+router.route("/getBuy").get(nftController.getBuy)
+router.route("/buy").put(nftController.updateBuy);
 module.exports = router;

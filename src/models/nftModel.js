@@ -4,6 +4,10 @@ const nftSchema = new mongoose.Schema({
   name: {
     type: String,
   },
+  nft_owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   description: {
     type: String,
   },
@@ -27,7 +31,10 @@ const nftSchema = new mongoose.Schema({
     type: String,
     enum: ["Buy", "Bid"],
   },
-  
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }  
 });
 const NFT = mongoose.model("NFT", nftSchema);
 
