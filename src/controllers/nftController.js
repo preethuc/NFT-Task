@@ -1,5 +1,6 @@
 import NFT from "./../models/nftModel";
-import BID from "./../models/bidModel";
+
+
 //POST - CREATE NFT(BUY,BID)
 exports.createNFT = async (req, res, next) => {
   try {
@@ -30,7 +31,7 @@ exports.allNFT = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       results: data.length,
-      data,
+      datas:data,
     });
   } catch (error) {
     res.send(error.message);
@@ -43,7 +44,7 @@ exports.NFTById = async (req, res, next) => {
     const data = await NFT.findById(req.params.id);
     res.status(200).json({
       status: "success",
-      data,
+      dataById:data,
     });
   } catch (error) {
     res.send(error.message);
@@ -57,7 +58,7 @@ exports.updateNFT = async (req, res, next) => {
     });
     res.status(200).json({
       status: "success",
-      data,
+      updatedData:data,
     });
   } catch (error) {
     res.send(error.message);
@@ -82,7 +83,7 @@ exports.getNFTCollection = async (req, res, next) => {
     const data = await NFT.find({ nft_collection: req.params.id });
     return res.status(200).json({
       status: "success",
-      data,
+      datas:data,
     });
   } catch (error) {
     return res.send(error);
@@ -110,7 +111,7 @@ exports.getNotSoldNFT = async (req, res, next) => {
     return res.status(201).json({
       status: "success",
       message: "not buyed by user",
-      data,
+      notSoldData:data,
     });
   } catch (error) {
     return res.send(error);
@@ -148,62 +149,3 @@ exports.getBid = async (req, res, next) => {
   }
 };
 
-//POST - BID process - price,user,nft_id -BID MODEL
-exports.createBidPrice = async (req, res, next) => {
-  try {
-    const data = await BID.create(req.body);
-    return res.status(201).json({
-      status: "success",
-      message: "BID Process",
-      data,
-    });
-  } catch (err) {
-    return res.send(err);
-  }
-};
-
-// GET - ALL BID process -price,user,nft_id -BID MODEL
-exports.allBidProcess = async (req, res, next) => {
-  try {
-    const bidData = await BID.find()
-      .populate("nft_id", "name")
-      .populate("bid_user", "name");
-    res.status(200).json({
-      status: "success",
-      results: bidData.length,
-      message: "BID DATAS",
-      data: bidData,
-    });
-  } catch (err) {
-    return res.send(err);
-  }
-};
-
-exports.getHighestBid = async (req, res) => {
-  try {
-    const bid = await BID.find({ nft_id: req.body.nft_id })
-      .sort({ bid_price: -1 })
-      .exec();
-    let highest_bid = bid[0];
-    res.status(200).json({
-      status: "success",
-      message: "HIGHEST BID",
-      data: highest_bid,
-    });
-  } catch (error) {
-    res.send(error.message);
-  }
-};
-
-// exports.getHighestBid = async (req, res, next) => {
-//   try {
-//     const data = await BID.find(req.query).where("bid_price").equals("105");
-//     return res.status(201).json({
-//       status: "success",
-//       message: "Highest BID amount",
-//       hightestBid: data,
-//     });
-//   } catch (err) {
-//     return res.send(err);
-//   }
-// };

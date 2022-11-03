@@ -34,7 +34,7 @@ exports.allCollection = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       results: data.length,
-      data,
+      datas: data,
     });
   } catch (error) {
     res.send(error.message);
@@ -48,7 +48,7 @@ exports.collectionById = async (req, res, next) => {
     console.log(data);
     res.status(200).json({
       status: "success",
-      data,
+      dataById: data,
     });
   } catch (error) {
     res.send(error.message);
@@ -62,7 +62,7 @@ exports.updateCollection = async (req, res, next) => {
     });
     res.status(200).json({
       status: "success",
-      data,
+      updatedData: data,
     });
   } catch (error) {
     res.send(error.message);
@@ -71,10 +71,10 @@ exports.updateCollection = async (req, res, next) => {
 //DELETE - COLLECTION BY ID
 exports.removeCollection = async (req, res, next) => {
   try {
-    const data = await Collection.findByIdAndDelete(req.params.id);
+    const removeData = await Collection.findByIdAndDelete(req.params.id);
     res.status(204).json({
       status: "success",
-      data,
+      data: removeData,
     });
   } catch (error) {
     res.send(error.message);

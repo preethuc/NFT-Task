@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   status: {
     type: Boolean,
   },
-});
+},{ versionKey: false });
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

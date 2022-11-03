@@ -37,7 +37,7 @@ const nftSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { timestamps: true }
+  { timestamps: true },{ versionKey: false }
 );
 const NFT = mongoose.model("NFT", nftSchema);
 

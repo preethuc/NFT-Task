@@ -12,7 +12,7 @@ const bidSchema = new mongoose.Schema({
     bid_price: {
         type: Number
     }
-});
+},{ versionKey: false });
 const BID = mongoose.model("BID", bidSchema);
 
 module.exports = BID;
