@@ -1,6 +1,6 @@
 import NFT from "./../models/nftModel";
-
-//POST - CREATE COLLECTION
+import BID from "./../models/bidModel";
+//POST - CREATE NFT(BUY,BID)
 exports.createNFT = async (req, res, next) => {
   try {
     const newData = await new NFT(req.body);
@@ -22,7 +22,7 @@ exports.createNFT = async (req, res, next) => {
   }
 };
 
-//GET- ALL COLLECTION
+//GET- ALL NFT
 exports.allNFT = async (req, res, next) => {
   try {
     const data = await NFT.find();
@@ -37,7 +37,7 @@ exports.allNFT = async (req, res, next) => {
   }
 };
 
-//GET- COLLECTION BY ID
+//GET- NFT BY ID
 exports.NFTById = async (req, res, next) => {
   try {
     const data = await NFT.findById(req.params.id);
@@ -49,7 +49,7 @@ exports.NFTById = async (req, res, next) => {
     res.send(error.message);
   }
 };
-//UPDATE - COLLECTION BY ID
+//UPDATE - NFT BY ID
 exports.updateNFT = async (req, res, next) => {
   try {
     const data = await NFT.findByIdAndUpdate(req.params.id, req.body, {
@@ -63,7 +63,7 @@ exports.updateNFT = async (req, res, next) => {
     res.send(error.message);
   }
 };
-//DELETE - COLLECTION BY ID
+//DELETE - NFT BY ID
 exports.removeNFT = async (req, res, next) => {
   try {
     const data = await NFT.findByIdAndDelete(req.params.id);
@@ -88,12 +88,28 @@ exports.getNFTCollection = async (req, res, next) => {
     return res.send(error);
   }
 };
-
+//GET data- sale_type: Buy
 exports.getBuy = async (req, res, next) => {
   try {
-    const data = await NFT.find({ sale_type: "Buy"});
-    return res.status(200).json({
+    const buyData = await NFT.find({ sale_type: "Buy" });
+    return res.status(201).json({
       status: "success",
+      results: buyData.length,
+      message: "BUY DATAS",
+      data: buyData,
+    });
+  } catch (error) {
+    return res.send(error);
+  }
+};
+
+//GET - notsoldNFT---is_sold: false
+exports.getNotSoldNFT = async (req, res, next) => {
+  try {
+    const data = await NFT.find({ is_sold: false });
+    return res.status(201).json({
+      status: "success",
+      message: "not buyed by user",
       data,
     });
   } catch (error) {
@@ -101,16 +117,93 @@ exports.getBuy = async (req, res, next) => {
   }
 };
 
-//BUY
+//PUT- BUY - update Buy -new nft_owner,is_sold
 exports.updateBuy = async (req, res, next) => {
-  try { 
-    const buyData = await NFT.findByIdAndUpdate(req.params.id, { nft_owner: req.body.nft_owner }, { new: true })
+  try {
+    const buyData = await NFT.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.status(200).json({
-      status: "updated",
-      data:buyData
-    })
-  }
-  catch (error) {
+      status: "success",
+      message: "updated-nft sold",
+      data: buyData,
+    });
+  } catch (error) {
     return res.send(error);
   }
-}
+};
+
+// GET- All BID NFT
+exports.getBid = async (req, res, next) => {
+  try {
+    const bidData = await NFT.find({ sale_type: "Bid" });
+    res.status(200).json({
+      status: "success",
+      results: bidData.length,
+      message: "BID DATAS",
+      data: bidData,
+    });
+  } catch (err) {
+    return res.send(err);
+  }
+};
+
+//POST - BID process - price,user,nft_id -BID MODEL
+exports.createBidPrice = async (req, res, next) => {
+  try {
+    const data = await BID.create(req.body);
+    return res.status(201).json({
+      status: "success",
+      message: "BID Process",
+      data,
+    });
+  } catch (err) {
+    return res.send(err);
+  }
+};
+
+// GET - ALL BID process -price,user,nft_id -BID MODEL
+exports.allBidProcess = async (req, res, next) => {
+  try {
+    const bidData = await BID.find()
+      .populate("nft_id", "name")
+      .populate("bid_user", "name");
+    res.status(200).json({
+      status: "success",
+      results: bidData.length,
+      message: "BID DATAS",
+      data: bidData,
+    });
+  } catch (err) {
+    return res.send(err);
+  }
+};
+
+exports.getHighestBid = async (req, res) => {
+  try {
+    const bid = await BID.find({ nft_id: req.body.nft_id })
+      .sort({ bid_price: -1 })
+      .exec();
+    let highest_bid = bid[0];
+    res.status(200).json({
+      status: "success",
+      message: "HIGHEST BID",
+      data: highest_bid,
+    });
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
+// exports.getHighestBid = async (req, res, next) => {
+//   try {
+//     const data = await BID.find(req.query).where("bid_price").equals("105");
+//     return res.status(201).json({
+//       status: "success",
+//       message: "Highest BID amount",
+//       hightestBid: data,
+//     });
+//   } catch (err) {
+//     return res.send(err);
+//   }
+// };
