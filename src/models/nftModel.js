@@ -36,8 +36,12 @@ const nftSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    nft_token: {
+      type: String,
+    },
   },
-  { timestamps: true },{ versionKey: false }
+  { timestamps: true },
+  { versionKey: false }
 );
 const NFT = mongoose.model("NFT", nftSchema);
 
