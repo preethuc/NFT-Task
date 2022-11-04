@@ -47,15 +47,4 @@ exports.createBidPrice = async (req, res, next) => {
     }
   };
   
-  // exports.getHighestBid = async (req, res, next) => {
-  //   try {
-  //     const data = await BID.find(req.query).where("bid_price").equals("105");
-  //     return res.status(201).json({
-  //       status: "success",
-  //       message: "Highest BID amount",
-  //       hightestBid: data,
-  //     });
-  //   } catch (err) {
-  //     return res.send(err);
-  //   }
-  // };
+ 
