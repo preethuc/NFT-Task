@@ -3,8 +3,8 @@ import nftController from "./../controllers/nftController";
 import upload from "./../utils/fileupload";
 
 const router = express.Router();
-router.route("/updateToken/:id").put(nftController.updateNFTToken); 
-router.route("/").get(nftController.getTokenByQuery);
+// router.route("/updateToken/:id").put(nftController.updateNFTToken); 
+// router.route("/").get(nftController.getTokenByQuery);
 router.route("/notsold").get(nftController.getNotSoldNFT);
 router.route("/getbuy").get(nftController.getBuy);
 router.route("/getbid").get(nftController.getBid);

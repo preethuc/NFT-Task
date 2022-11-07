@@ -148,49 +148,50 @@ exports.getBid = async (req, res, next) => {
   }
 };
 
-exports.getTokenByQuery = async (req, res, next) => {
-  try { 
-    const data = await NFT.find(req.query.nft_token)
-    console.log(req.query.nft_token);
-    console.log(req.query)
-    res.status(200).json({
-      status: "success",
-      results: data.length,
-      message: "Get by Token",
-      datas:data
-    })
-  }
-  catch (err) {
-    return res.send(err);
+// GET - 
+// exports.getTokenByQuery = async (req, res, next) => {
+//   try { 
+//     const data = await NFT.find(req.query.nft_token)
+//     console.log(req.query.nft_token);
+//     console.log(req.query)
+//     res.status(200).json({
+//       status: "success",
+//       results: data.length,
+//       message: "Get by Token",
+//       datas:data
+//     })
+//   }
+//   catch (err) {
+//     return res.send(err);
     
-  }
-}
+//   }
+// }
 
-// UPDATE -  NFT_Token field
-exports.updateNFTToken = async (req, res, next) => {
-  try {
-    // const some = JSON.parse(req.query)
-    let queryData = req.query;
-    console.log(queryData);
-    let dataString = JSON.stringify(queryData)
-    console.log(dataString)
-    let new_data = JSON.parse(dataString)
-    console.log(new_data)
-    console.log(`the nft token ${req.query.nft_token}`)
-    const data = await NFT.findByIdAndUpdate(
-      req.params.id,
-      {
-        nft_token: req.query.nft_token,
-      },
-      { new: true }
-    );
-    res.status(200).json({
-      status: "success",
-      message: "NFT Token updated",
-      Data: data,
-    });
-  } catch (error) {
-    return res.send(error);
-    console.log(error);
-  }
-};
+// // UPDATE -  NFT_Token field
+// exports.updateNFTToken = async (req, res, next) => {
+//   try {
+//     // const some = JSON.parse(req.query)
+//     let queryData = req.query;
+//     console.log(queryData);
+//     let dataString = JSON.stringify(queryData)
+//     console.log(dataString)
+//     let new_data = JSON.parse(dataString)
+//     console.log(new_data)
+//     console.log(`the nft token ${req.query.nft_token}`)
+//     const data = await NFT.findByIdAndUpdate(
+//       req.params.id,
+//       {
+//         nft_token: req.query.nft_token,
+//       },
+//       { new: true }
+//     );
+//     res.status(200).json({
+//       status: "success",
+//       message: "NFT Token updated",
+//       Data: data,
+//     });
+//   } catch (error) {
+//     return res.send(error);
+//     console.log(error);
+//   }
+// };
